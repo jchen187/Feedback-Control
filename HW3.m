@@ -9,9 +9,18 @@ sys1 = tf(num,den);     % My transfer function
 
 figure;
 rlocus(sys1);
-% [k, poles] = rlocfind(sys1);
 
-%Give it a ramp input to see the response
+%Give it a ramp input
+% [k, poles] = rlocfind(sys1);
+k = 1;
+s = tf('s')
+cltf = feedback(k*sys1,1)
+figure;
+step(cltf/s)
+%ramp(cltf)
+
+%Give the same system a ramp input to see the response. Should be the same
+%response
 t = 0:0.1:10;
 alpha = 1;
 ramp = alpha*t;         % My ramp input signal
@@ -22,10 +31,6 @@ plot(t,y,t,ramp);
 xlabel('Time(secs)');
 ylabel('Amplitude');
 title('Response to a Ramp Input');
-
-%cltf = feedback(k*sys1,1)
-%step(cltf/s)
-%ramp(cltf)
 
 %%Question 2
 num = [1];
