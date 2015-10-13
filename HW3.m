@@ -101,3 +101,19 @@ rlocus(sys4)
 title('Rocus Locus with p = 3')
 
 %A question occured to me. Why is K not important in the transfer function
+
+%%Question 5 
+R = 0.5;
+L = 0.2;
+J1 = 0.01;
+J2 = 0.03;
+B = 0.2;
+Km = 0.01;
+Kg = Km;
+N  = 2;
+
+num=[0 0 Km];
+den=[(J1*N+J2/N)*L (J1*N+J2/N)*R+B*L/N B*R/N+Km*Kg*N];
+sys5 = tf(num,den);
+
+rltool(sys5)
