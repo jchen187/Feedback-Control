@@ -14,10 +14,11 @@ rlocus(sys1);
 %Give it a ramp input to see the response
 t = 0:0.1:10;
 alpha = 1;
-ramp = alpha*t;         % My input signal
+ramp = alpha*t;         % My ramp input signal
 [y,t] = lsim(sys1,ramp,t);
 figure;
-plot(t,y);
+%plot(t,y); 
+plot(t,y,t,ramp); 
 xlabel('Time(secs)');
 ylabel('Amplitude');
 title('Response to a Ramp Input');
