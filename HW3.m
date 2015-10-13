@@ -14,7 +14,7 @@ rlocus(sys1);
 % [k, poles] = rlocfind(sys1);
 k = 1;
 s = tf('s')
-cltf = feedback(k*sys1,1)
+cltf = feedback(k*sys1,1) % It is a 1 because we are using unity feedback.
 figure;
 step(cltf/s)
 %ramp(cltf)
@@ -49,3 +49,53 @@ figure;
 rlocus(sys3)
 
 %%Question 4
+num = [1];
+den = [1 0 0];
+sys4 = tf(num,den) 
+
+%Part a => C(s)=kp
+figure;
+rlocus(sys4)
+title('Satellite Altitude System with C(s)=kp')
+
+%Part b => C(s)=kp+kds
+num = [1 1];
+den = [1 0 0];
+sys4 = tf(num,den) 
+
+figure;
+rlocus(sys4)
+title('Satellite Altitude System with C(s)=kp+kds')
+
+%USING LEAD COMPENSATION
+z = 1;
+num = [1 z];
+
+%Set p = 20
+p = 20;
+dem = conv([1 0 z],[1 p]);      %conv is used to multiply the two polynomials
+sys4 = tf(num,den);
+
+figure;
+rlocus(sys4)
+title('Rocus Locus with p = 20')
+
+%Set p = 9
+p = 9;
+dem = conv([1 0 z],[1 p]);      
+sys4 = tf(num,den);
+
+figure;
+rlocus(sys4)
+title('Rocus Locus with p = 9')
+
+%Set p = 3
+p = 3;
+dem = conv([1 0 z],[1 p]);      
+sys4 = tf(num,den);
+
+figure;
+rlocus(sys4)
+title('Rocus Locus with p = 3')
+
+%A question occured to me. Why is K not important in the transfer function
