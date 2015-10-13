@@ -13,7 +13,7 @@ rlocus(sys1);
 %Give it a ramp input
 % [k, poles] = rlocfind(sys1);
 k = 1;
-s = tf('s')
+s = tf('s');
 cltf = feedback(k*sys1,1) % It is a 1 because we are using unity feedback.
 figure;
 step(cltf/s)
@@ -35,7 +35,7 @@ title('Response to a Ramp Input');
 %%Question 2
 num = [1];
 den = [1 4 6 4 0];
-sys2 = tf(num,den) 
+sys2 = tf(num,den);
 
 figure;
 rlocus(sys2)
@@ -43,7 +43,7 @@ rlocus(sys2)
 %%Question 3
 num = [1 2];
 den = [1 2 2 0];
-sys3 = tf(num,den) 
+sys3 = tf(num,den); 
 
 figure;
 rlocus(sys3)
@@ -51,7 +51,7 @@ rlocus(sys3)
 %%Question 4
 num = [1];
 den = [1 0 0];
-sys4 = tf(num,den) 
+sys4 = tf(num,den);
 
 %Part a => C(s)=kp
 figure;
@@ -61,7 +61,7 @@ title('Satellite Altitude System with C(s)=kp')
 %Part b => C(s)=kp+kds
 num = [1 1];
 den = [1 0 0];
-sys4 = tf(num,den) 
+sys4 = tf(num,den);
 
 figure;
 rlocus(sys4)
@@ -73,8 +73,10 @@ num = [1 z];
 
 %Set p = 20
 p = 20;
-dem = conv([1 0 z],[1 p]);      %conv is used to multiply the two polynomials
-sys4 = tf(num,den);
+%dem = [1 p 0 0];
+den = conv([1 0 0],[1 p])
+%conv is used to multiply the two polynomials
+sys4 = tf(num,den)
 
 figure;
 rlocus(sys4)
@@ -82,8 +84,8 @@ title('Rocus Locus with p = 20')
 
 %Set p = 9
 p = 9;
-dem = conv([1 0 z],[1 p]);      
-sys4 = tf(num,den);
+den = conv([1 0 0],[1 p]);      
+sys4 = tf(num,den)
 
 figure;
 rlocus(sys4)
@@ -91,8 +93,8 @@ title('Rocus Locus with p = 9')
 
 %Set p = 3
 p = 3;
-dem = conv([1 0 z],[1 p]);      
-sys4 = tf(num,den);
+den = conv([1 0 0],[1 p]);      
+sys4 = tf(num,den)
 
 figure;
 rlocus(sys4)

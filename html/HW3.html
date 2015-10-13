@@ -1,0 +1,326 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   <!--
+This HTML was auto-generated from MATLAB code.
+To make changes, update the MATLAB code and republish this document.
+      --><title>HW3</title><meta name="generator" content="MATLAB 8.6"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2015-10-13"><meta name="DC.source" content="HW3.m"><style type="text/css">
+html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
+
+html { min-height:100%; margin-bottom:1px; }
+html body { height:100%; margin:0px; font-family:Arial, Helvetica, sans-serif; font-size:10px; color:#000; line-height:140%; background:#fff none; overflow-y:scroll; }
+html body td { vertical-align:top; text-align:left; }
+
+h1 { padding:0px; margin:0px 0px 25px; font-family:Arial, Helvetica, sans-serif; font-size:1.5em; color:#d55000; line-height:100%; font-weight:normal; }
+h2 { padding:0px; margin:0px 0px 8px; font-family:Arial, Helvetica, sans-serif; font-size:1.2em; color:#000; font-weight:bold; line-height:140%; border-bottom:1px solid #d6d4d4; display:block; }
+h3 { padding:0px; margin:0px 0px 5px; font-family:Arial, Helvetica, sans-serif; font-size:1.1em; color:#000; font-weight:bold; line-height:140%; }
+
+a { color:#005fce; text-decoration:none; }
+a:hover { color:#005fce; text-decoration:underline; }
+a:visited { color:#004aa0; text-decoration:none; }
+
+p { padding:0px; margin:0px 0px 20px; }
+img { padding:0px; margin:0px 0px 20px; border:none; }
+p img, pre img, tt img, li img, h1 img, h2 img { margin-bottom:0px; } 
+
+ul { padding:0px; margin:0px 0px 20px 23px; list-style:square; }
+ul li { padding:0px; margin:0px 0px 7px 0px; }
+ul li ul { padding:5px 0px 0px; margin:0px 0px 7px 23px; }
+ul li ol li { list-style:decimal; }
+ol { padding:0px; margin:0px 0px 20px 0px; list-style:decimal; }
+ol li { padding:0px; margin:0px 0px 7px 23px; list-style-type:decimal; }
+ol li ol { padding:5px 0px 0px; margin:0px 0px 7px 0px; }
+ol li ol li { list-style-type:lower-alpha; }
+ol li ul { padding-top:7px; }
+ol li ul li { list-style:square; }
+
+.content { font-size:1.2em; line-height:140%; padding: 20px; }
+
+pre, code { font-size:12px; }
+tt { font-size: 1.2em; }
+pre { margin:0px 0px 20px; }
+pre.codeinput { padding:10px; border:1px solid #d3d3d3; background:#f7f7f7; }
+pre.codeoutput { padding:10px 11px; margin:0px 0px 20px; color:#4c4c4c; }
+pre.error { color:red; }
+
+@media print { pre.codeinput, pre.codeoutput { word-wrap:break-word; width:100%; } }
+
+span.keyword { color:#0000FF }
+span.comment { color:#228B22 }
+span.string { color:#A020F0 }
+span.untermstring { color:#B20000 }
+span.syscmd { color:#B28C00 }
+
+.footer { width:auto; padding:10px 0px; margin:25px 0px 0px; border-top:1px dotted #878787; font-size:0.8em; line-height:140%; font-style:italic; color:#878787; text-align:left; float:none; }
+.footer p { margin:0px; }
+.footer a { color:#878787; }
+.footer a:hover { color:#878787; text-decoration:underline; }
+.footer a:visited { color:#878787; }
+
+table th { padding:7px 5px; text-align:left; vertical-align:middle; border: 1px solid #d6d4d4; font-weight:bold; }
+table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px solid #d6d4d4; }
+
+
+
+
+
+  </style></head><body><div class="content"><pre class="codeinput">clc;
+clear <span class="string">all</span>;
+close <span class="string">all</span>;
+
+<span class="comment">%%Question 1</span>
+num = [1];
+den = [1 2 2 0];
+sys1 = tf(num,den);     <span class="comment">% My transfer function</span>
+
+figure;
+rlocus(sys1);
+
+<span class="comment">%Give it a ramp input</span>
+<span class="comment">% [k, poles] = rlocfind(sys1);</span>
+k = 1;
+s = tf(<span class="string">'s'</span>)
+cltf = feedback(k*sys1,1) <span class="comment">% It is a 1 because we are using unity feedback.</span>
+figure;
+step(cltf/s)
+<span class="comment">%ramp(cltf)</span>
+
+<span class="comment">%Give the same system a ramp input to see the response. Should be the same</span>
+<span class="comment">%response</span>
+t = 0:0.1:10;
+alpha = 1;
+ramp = alpha*t;         <span class="comment">% My ramp input signal</span>
+[y,t] = lsim(sys1,ramp,t);
+figure;
+<span class="comment">%plot(t,y);</span>
+plot(t,y,t,ramp);
+xlabel(<span class="string">'Time(secs)'</span>);
+ylabel(<span class="string">'Amplitude'</span>);
+title(<span class="string">'Response to a Ramp Input'</span>);
+
+<span class="comment">%%Question 2</span>
+num = [1];
+den = [1 4 6 4 0];
+sys2 = tf(num,den)
+
+figure;
+rlocus(sys2)
+
+<span class="comment">%%Question 3</span>
+num = [1 2];
+den = [1 2 2 0];
+sys3 = tf(num,den)
+
+figure;
+rlocus(sys3)
+
+<span class="comment">%%Question 4</span>
+num = [1];
+den = [1 0 0];
+sys4 = tf(num,den)
+
+<span class="comment">%Part a =&gt; C(s)=kp</span>
+figure;
+rlocus(sys4)
+title(<span class="string">'Satellite Altitude System with C(s)=kp'</span>)
+
+<span class="comment">%Part b =&gt; C(s)=kp+kds</span>
+num = [1 1];
+den = [1 0 0];
+sys4 = tf(num,den)
+
+figure;
+rlocus(sys4)
+title(<span class="string">'Satellite Altitude System with C(s)=kp+kds'</span>)
+
+<span class="comment">%USING LEAD COMPENSATION</span>
+z = 1;
+num = [1 z];
+
+<span class="comment">%Set p = 20</span>
+p = 20;
+dem = conv([1 0 z],[1 p]);      <span class="comment">%conv is used to multiply the two polynomials</span>
+sys4 = tf(num,den);
+
+figure;
+rlocus(sys4)
+title(<span class="string">'Rocus Locus with p = 20'</span>)
+
+<span class="comment">%Set p = 9</span>
+p = 9;
+dem = conv([1 0 z],[1 p]);
+sys4 = tf(num,den);
+
+figure;
+rlocus(sys4)
+title(<span class="string">'Rocus Locus with p = 9'</span>)
+
+<span class="comment">%Set p = 3</span>
+p = 3;
+dem = conv([1 0 z],[1 p]);
+sys4 = tf(num,den);
+
+figure;
+rlocus(sys4)
+title(<span class="string">'Rocus Locus with p = 3'</span>)
+
+<span class="comment">%A question occured to me. Why is K not important in the transfer function</span>
+</pre><pre class="codeoutput">
+s =
+ 
+  s
+ 
+Continuous-time transfer function.
+
+
+cltf =
+ 
+            1
+  ---------------------
+  s^3 + 2 s^2 + 2 s + 1
+ 
+Continuous-time transfer function.
+
+
+sys2 =
+ 
+              1
+  -------------------------
+  s^4 + 4 s^3 + 6 s^2 + 4 s
+ 
+Continuous-time transfer function.
+
+
+sys3 =
+ 
+        s + 2
+  -----------------
+  s^3 + 2 s^2 + 2 s
+ 
+Continuous-time transfer function.
+
+
+sys4 =
+ 
+   1
+  ---
+  s^2
+ 
+Continuous-time transfer function.
+
+
+sys4 =
+ 
+  s + 1
+  -----
+   s^2
+ 
+Continuous-time transfer function.
+
+</pre><img vspace="5" hspace="5" src="HW3_01.png" alt=""> <img vspace="5" hspace="5" src="HW3_02.png" alt=""> <img vspace="5" hspace="5" src="HW3_03.png" alt=""> <img vspace="5" hspace="5" src="HW3_04.png" alt=""> <img vspace="5" hspace="5" src="HW3_05.png" alt=""> <img vspace="5" hspace="5" src="HW3_06.png" alt=""> <img vspace="5" hspace="5" src="HW3_07.png" alt=""> <img vspace="5" hspace="5" src="HW3_08.png" alt=""> <img vspace="5" hspace="5" src="HW3_09.png" alt=""> <img vspace="5" hspace="5" src="HW3_10.png" alt=""> <p class="footer"><br><a href="http://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2015b</a><br></p></div><!--
+##### SOURCE BEGIN #####
+clc;
+clear all;
+close all;
+
+%%Question 1
+num = [1];
+den = [1 2 2 0];
+sys1 = tf(num,den);     % My transfer function 
+
+figure;
+rlocus(sys1);
+
+%Give it a ramp input
+% [k, poles] = rlocfind(sys1);
+k = 1;
+s = tf('s')
+cltf = feedback(k*sys1,1) % It is a 1 because we are using unity feedback.
+figure;
+step(cltf/s)
+%ramp(cltf)
+
+%Give the same system a ramp input to see the response. Should be the same
+%response
+t = 0:0.1:10;
+alpha = 1;
+ramp = alpha*t;         % My ramp input signal
+[y,t] = lsim(sys1,ramp,t);
+figure;
+%plot(t,y); 
+plot(t,y,t,ramp); 
+xlabel('Time(secs)');
+ylabel('Amplitude');
+title('Response to a Ramp Input');
+
+%%Question 2
+num = [1];
+den = [1 4 6 4 0];
+sys2 = tf(num,den) 
+
+figure;
+rlocus(sys2)
+
+%%Question 3
+num = [1 2];
+den = [1 2 2 0];
+sys3 = tf(num,den) 
+
+figure;
+rlocus(sys3)
+
+%%Question 4
+num = [1];
+den = [1 0 0];
+sys4 = tf(num,den) 
+
+%Part a => C(s)=kp
+figure;
+rlocus(sys4)
+title('Satellite Altitude System with C(s)=kp')
+
+%Part b => C(s)=kp+kds
+num = [1 1];
+den = [1 0 0];
+sys4 = tf(num,den) 
+
+figure;
+rlocus(sys4)
+title('Satellite Altitude System with C(s)=kp+kds')
+
+%USING LEAD COMPENSATION
+z = 1;
+num = [1 z];
+
+%Set p = 20
+p = 20;
+dem = conv([1 0 z],[1 p]);      %conv is used to multiply the two polynomials
+sys4 = tf(num,den);
+
+figure;
+rlocus(sys4)
+title('Rocus Locus with p = 20')
+
+%Set p = 9
+p = 9;
+dem = conv([1 0 z],[1 p]);      
+sys4 = tf(num,den);
+
+figure;
+rlocus(sys4)
+title('Rocus Locus with p = 9')
+
+%Set p = 3
+p = 3;
+dem = conv([1 0 z],[1 p]);      
+sys4 = tf(num,den);
+
+figure;
+rlocus(sys4)
+title('Rocus Locus with p = 3')
+
+%A question occured to me. Why is K not important in the transfer function
+##### SOURCE END #####
+--></body></html>
